@@ -1,8 +1,11 @@
 # Name of the executable to be generated #
-TARGET_EXECUTABLE := exec
+TARGET_EXECUTABLE := stringRepeat
 
 # Directories for organizing files #
 BUILD_DIR := ./build
+
+# Directories for executable file #
+BIN_DIR := $(BUILD_DIR)/bin
 
 # Source directories #
 SRC_DIR := ./src
@@ -16,25 +19,24 @@ C_SRC_FILES := $(shell find -name '*.c')
 ASM_SRC_FILES := $(shell find -name '*.asm')
 
 # Generate Object files from source files names #
-C_OBJ_FILES := $(C_SRC_FILES:%.c=$(BUILD_DIR)/%.o)
-ASM_OBJ_FILES := $(ASM_SRC_FILES:%.asm=$(BUILD_DIR)/%.o)
+C_OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SRC_FILES))
+ASM_OBJS := $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC_FILES))
+
+# Grou object files #
+ALL_OBJS := $(C_OBJS) $(ASM_OBJS)
 
 # Build Steps #
-$(BUILD_DIR)/$(TARGET_EXECUTABLE): $(C_OBJ_FILES) $(ASM_OBJ_FILES)
-	gcc $^ -o $@ $(DIRECTORIES_FLAGS)
+$(BIN_DIR)/$(TARGET_EXECUTABLE): $(ALL_OBJS)
+	@mkdir -p $(dir $@)
+	gcc $^ -o $@
 
-# Pattern rule to compile C source files into object files #
-$(BUILD_DIR)/%.o: %.c
-	mkdir -p $(dir $@)
-	gcc -c $< -o $@ $(DIRECTORIES_FLAGS)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	gcc -c $^ -o $@
 
-# Pattern rule to compile ASM source files into object files #
-$(BUILD_DIR)/%.o: %.asm
-	mkdir -p $(dir $@)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
+	@mkdir -p $(dir $@)
 	nasm -f elf64 $< -o $@
-
 
 .PHONY: clean
 	rm -r $(BUILD_DIR)
-
-
