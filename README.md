@@ -1,3 +1,3 @@
-# Tarea 2
+# Tarea 3
 
-Programa que imprime el string mandado, cuya entrada se define en C y definición de la impresión en Ensamblador. Ejecutado en imagen de Ubuntu 64 bits
+Simulación de la obtención de información en PC, enviada por dos sensores, uno de posición y uno de gestos. Al recibir la información, se separa para ser procesada individualmente dentro de una función aparte que contiene a `Pos` y `Gest`. Dicha información retornará una rutina de ejecución.
