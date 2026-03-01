@@ -13,29 +13,24 @@ SRC_DIR := ./src
 # Directories for sensor source files #
 SENSOR_DIR := $(SRC_DIR)/sensors
 
-# Compiler and Assembler files #
-#C_SRC_FILES := $(shell find -name '*.c')
-#ASM_SRC_FILES := $(shell find -name '*.asm')
+# Compiler
+CC := gcc
 
-# Generate Object files from source files names #
-#C_OBJS := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_SRC_FILES))
-#ASM_OBJS := $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SRC_FILES))
+# C Files
+C_FILES := $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SENSOR_DIR)/*.c)
 
-# Grou object files #
-ALL_OBJS := $(C_OBJS) $(ASM_OBJS)
+# Object Files
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(C_FILES))
 
 # Build Steps #
-$(BIN_DIR)/$(TARGET_EXECUTABLE): $(ALL_OBJS)
+$(BIN_DIR)/$(TARGET_EXECUTABLE): $(OBJ_FILES)
 	@mkdir -p $(dir $@)
-	gcc $^ -o $@
+	$(CC) $^ -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	gcc -c $^ -o $@
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	nasm -f elf64 $< -o $@
+	$(CC) -c $^ -o $@
 
 .PHONY: clean
-	rm -r $(BUILD_DIR)
+clean:
+	@if [ -d $(BUILD_DIR) ]; then rm -r $(BUILD_DIR); fi
