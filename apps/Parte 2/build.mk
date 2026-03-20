@@ -1,5 +1,5 @@
 # Name of the executable to be generated #
-TARGET_EXECUTABLE := stringRepeat
+TARGET_EXECUTABLE := main
 
 # Directories for organizing files #
 BUILD_DIR := ./build
@@ -39,4 +39,5 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
 	nasm -f elf64 $< -o $@
 
 .PHONY: clean
-	rm -r $(BUILD_DIR)
+clean:
+	@if [ -d $(BUILD_DIR) ]; then rm -r $(BUILD_DIR); fi
