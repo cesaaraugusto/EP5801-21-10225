@@ -1,6 +1,6 @@
 # Tarea 4
 
-**Importante: ** _Para ejecutar cada parte, sacar de su carpeta a la raiz de esta rama y ejecutar build.mk, y el ejecutable posteriormente_
+**Importante:** _Para ejecutar cada parte, sacar de su carpeta a la raiz de esta rama y ejecutar build.mk, y el ejecutable posteriormente_
 
 ## Parte 1: Eliminar malloc
 
